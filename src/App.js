@@ -24,7 +24,10 @@ export default function App() {
         Launch modal
       </motion.button>
 
-      <motion.select className="input" onChange={handleAnimationType}>
+      <motion.select
+        className="launch_modal_button"
+        onChange={handleAnimationType}
+      >
         <option value="dropIn">🪂 Drop in</option>
         <option value="flip">🛹 Flip</option>
         <option value="newspaper">🗞 Newspaper</option>
