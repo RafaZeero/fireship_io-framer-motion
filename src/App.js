@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -17,6 +17,19 @@ export default function App() {
       >
         Launch modal
       </motion.button>
+      <AnimatePresence
+        // Disable any initial animations on children that
+        // are present when the component is first rendered
+        initial={false}
+        // Only render one component at a time.
+        // The exiting component will finish its exit
+        // animation before entering component is rendered
+        exitBeforeEnter={true}
+        // Fires when all exiting nodes have completed animating out
+        onExitComplete={() => null}
+      >
+        {modalOpen && <Modal modalOpen={modalOpen} handleClose={close} />}
+      </AnimatePresence>
     </div>
   )
 }
