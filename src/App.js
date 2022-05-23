@@ -1,14 +1,20 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { ModalContainer } from './components/Modal/ModalContainer'
+import Modal from './components/Modal'
 
 export default function App() {
-  const [modalOpen, setModalOpen] = useState(false)
+  // setting animation type
+  const [animation, setAnimation] = useState('dropIn')
+  const handleAnimationType = e => setAnimation(e.target.value)
 
+  // modal open and modal close
+  const [modalOpen, setModalOpen] = useState(false)
   const close = () => setModalOpen(false)
   const open = () => setModalOpen(true)
 
   return (
-    <div>
+    <div className="container">
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -17,19 +23,24 @@ export default function App() {
       >
         Launch modal
       </motion.button>
-      <AnimatePresence
-        // Disable any initial animations on children that
-        // are present when the component is first rendered
-        initial={false}
-        // Only render one component at a time.
-        // The exiting component will finish its exit
-        // animation before entering component is rendered
-        exitBeforeEnter={true}
-        // Fires when all exiting nodes have completed animating out
-        onExitComplete={() => null}
-      >
-        {modalOpen && <Modal modalOpen={modalOpen} handleClose={close} />}
-      </AnimatePresence>
+
+      <motion.select className="input" onChange={handleAnimationType}>
+        <option value="dropIn">🪂 Drop in</option>
+        <option value="flip">🛹 Flip</option>
+        <option value="newspaper">🗞 Newspaper</option>
+        <option value="badSuspension">🔩 Bad Suspension</option>
+      </motion.select>
+
+      <ModalContainer>
+        {modalOpen && (
+          <Modal
+            modalOpen={modalOpen}
+            text={animation}
+            animation={animation}
+            handleClose={close}
+          />
+        )}
+      </ModalContainer>
     </div>
   )
 }

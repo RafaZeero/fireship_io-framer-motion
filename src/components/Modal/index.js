@@ -1,41 +1,71 @@
 import { motion } from 'framer-motion'
 import Backdrop from '../Backdrop'
+import { dropIn } from '../../animations/DropIn'
+import { badSuspension } from '../../animations/BadSuspension'
+import { flip } from '../../animations/Flip'
+import { newspaper } from '../../animations/Newspaper'
+import { ModalButton } from './ModalButton'
+import { ModalText } from './ModalText'
 
-const dropIn = {
-  hidden: {
-    y: '-100vh',
-    opacity: 0
-  },
-  visible: {
-    y: '0',
-    opacity: 1,
-    transition: {
-      duration: 0.1,
-      type: 'spring',
-      damping: 25,
-      stiffness: 500
-    }
-  },
-  exit: {
-    y: '100vh',
-    opacity: 0
-  }
-}
-
-const Modal = ({ handleClose, text }) => {
+const Modal = ({ handleClose, text, animation }) => {
   return (
     <Backdrop onClick={handleClose}>
-      <motion.div
-        onClick={e => e.stopPropagation()}
-        className="modal orange-gradient"
-        variants={dropIn}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        <p>{text}</p>
-        <button onClick={handleClose}>Close</button>
-      </motion.div>
+      {animation === 'dropIn' && (
+        <motion.div
+          onClick={e => e.stopPropagation()} // Prevent click from closing modal
+          className="modal orange-gradient"
+          variants={dropIn}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <ModalText text={text} />
+          <ModalButton onClick={handleClose} label="Close" />
+        </motion.div>
+      )}
+
+      {animation === 'flip' && (
+        <motion.div
+          onClick={e => e.stopPropagation()}
+          className="modal  orange-gradient"
+          variants={flip}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <ModalText text={text} />
+          <ModalButton onClick={handleClose} label="Close" />
+        </motion.div>
+      )}
+
+      {animation === 'newspaper' && (
+        <motion.div
+          onClick={e => e.stopPropagation()}
+          className="modal orange-gradient"
+          variants={newspaper}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <ModalText text={text} />
+          <ModalButton onClick={handleClose} label="Close" />
+        </motion.div>
+      )}
+
+      {animation === 'badSuspension' && (
+        <motion.div
+          onClick={e => e.stopPropagation()}
+          className="modal orange-gradient"
+          variants={badSuspension}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <ModalText text={text} />
+
+          <ModalButton onClick={handleClose} label="Close" />
+        </motion.div>
+      )}
     </Backdrop>
   )
 }
